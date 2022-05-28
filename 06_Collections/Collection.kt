@@ -1,8 +1,7 @@
 fun main() {
+
     print("Enter the number of contacts to be entered - ")
-    val line = readLine()
-    if (line != null) {
-        val tEST1 = globalList(inputNumbers(line))
+        val tEST1 = globalList(inputNumbers(readLine().toString()))
         println("Numbers with +7 ${tEST1.filter { it.startsWith("+7") }}") //Вывод номеров начинающихся с +7
         println("Number of unique numbers - ${tEST1.toSet().size}") // количество уникальных номеров - ...
         println("Sum of number lengths ${tEST1.sumOf { it.count() }}") //Сумма символов во всех номерах
@@ -14,12 +13,11 @@ fun main() {
         val a = tTEST2.toSortedMap()
         println("Sorted numbers:")//Сортировка по номерам
         a.forEach { println(it) }
+
         val b = tTEST2.toList().sortedBy { (_, v) -> v }.toMap()
         println("Sorted names:")
         b.forEach{ println(it) }  //Сортировка по именам
     }
-    else println("ERROR")
-}
 fun globalList(amountNumber: Int): MutableList<String> {
     val listContactsLIST = mutableListOf<String>()
     for (i in 1..amountNumber) {
@@ -27,9 +25,7 @@ fun globalList(amountNumber: Int): MutableList<String> {
         listContactsLIST.add(readLine().toString())
     }
     return listContactsLIST}
-
 fun inputNumbers (n: String) : Int{
-
     val b = n.toLong()
     return if (b>=0) { n.toInt() }
     else
@@ -37,5 +33,4 @@ fun inputNumbers (n: String) : Int{
         println("Error, You can only enter more than one number")
         inputNumbers(readLine().toString())
     }
-
 }
