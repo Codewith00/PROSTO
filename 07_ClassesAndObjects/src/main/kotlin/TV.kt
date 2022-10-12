@@ -1,30 +1,28 @@
-import kotlin.math.max
-
 class TV(mark: String, model: String, size: Double) {
 
     constructor(descriptor: Pair<String, String>, size: Double) : this(
         mark = descriptor.first,
         model = descriptor.second,
-        size = 43.3
+        size = size
     )
 
-    private var channels = Channels.getRandomChannels().toMutableList()                   //Список каналов
+    private val currentModel = model                                                             //Текущая модель
+    private var channels = Channels.getRandomChannels().toMutableList()                          //Список каналов
     private var currentVolume: Int = 15                                                   //Громкость по умолчанию
     private var currentChannel = channels[0]                                              //Текущий канал по умолчанию
     private var numberCurrentChannel = 0
     private var power = false
     private val amountChannelsInt = when {
-            size < 32.0 -> 5
-            size < 43.5 -> 7
-            else -> channels.count()
-        }
-    private val tvProgram = channels.slice(0 until amountChannelsInt)
-
-    init {
-
+        size < 32.0 -> 5
+        size < 43.5 -> 7
+        else -> channels.count()
     }
+     private val tvProgram = channels.slice(0 until amountChannelsInt)
 
-
+    fun listChannels (){
+        println("Список каналов для модели - $currentModel")
+      tvProgram.forEachIndexed { index, s -> println("$index - $s") }
+    }
     fun upVolume(volume: Int) {                                           //Добавить\убавить громкость
         currentVolume = minOf(VOLUME_MAX, currentVolume + volume)
         println("Громкость - $currentVolume")
@@ -38,13 +36,13 @@ class TV(mark: String, model: String, size: Double) {
     fun switchChannel(canal: Int) {                                        //Переключение каналов
         if (!power) {
             power = true
-            println("Включение ТВ")
+            println("Включение ТВ $")
         }
-        if (canal !in IntRange(0, amountChannelsInt))
-        numberCurrentChannel = canal
-        currentChannel = tvProgram[canal]
-        println("Текущий канал - $currentChannel под номером - $numberCurrentChannel")
-
+        if (canal in IntRange(0, amountChannelsInt - 1)) {
+            numberCurrentChannel = canal
+            currentChannel = tvProgram[canal]
+            println("Текущий канал - $currentChannel под номером - $numberCurrentChannel")
+        } else println("Всего каналов - $amountChannelsInt")
     }
 
     fun upSwitchChannel() {
@@ -53,8 +51,10 @@ class TV(mark: String, model: String, size: Double) {
             println("Включение ТВ")
         }
         numberCurrentChannel += 1
-        currentChannel = tvProgram[numberCurrentChannel]
-        println("Текущий канал - $currentChannel под номером - $numberCurrentChannel")
+        if (numberCurrentChannel > amountChannelsInt - 1) numberCurrentChannel = 0
+            currentChannel = tvProgram[numberCurrentChannel]
+            println("Текущий канал - $currentChannel под номером - $numberCurrentChannel")
+
     }
 
     fun downSwitchChannel() {
@@ -63,16 +63,18 @@ class TV(mark: String, model: String, size: Double) {
             println("Включение ТВ")
         }
         numberCurrentChannel -= 1
-        currentChannel = tvProgram[numberCurrentChannel]
-        println("Текущий канал - $currentChannel под номером - $numberCurrentChannel")
+        if (numberCurrentChannel < 0) numberCurrentChannel = amountChannelsInt - 1
+            currentChannel = tvProgram[numberCurrentChannel]
+            println("Текущий канал - $currentChannel под номером - $numberCurrentChannel")
+
     }
 
     fun turnOnOff() {                                                      //ВКЛ\ВЫКЛ телевизора
         power = if (!power) {
-            println("Включение ТВ")
+            println("Включение ТВ $currentModel")
             true
         } else {
-            println("Выключение ТВ")
+            println("Выключение ТВ $currentModel")
             false
         }
     }
