@@ -1,11 +1,12 @@
 import kotlin.random.Random
+import kotlin.random.nextInt
 
-class Animal(energy: Int, weight: Int, maxOld: Int, name: String) {
-    constructor(descriptor: Pair<Int, Int>, maxOld: Int, name: String) : this(
-        energy = descriptor.first,
-        weight = descriptor.second,
-        maxOld = maxOld,
-        name = name
+open class Animal(name: String, maxOld: Int, weight: Int, energy: Int) {
+    constructor(descriptor: Pair<String, Int>, energy: Int, weight: Int) : this(
+        name = descriptor.first,
+        maxOld = descriptor.second,
+        weight = weight,
+        energy = energy
     )
 
     var itMaxOld = maxOld
@@ -13,30 +14,63 @@ class Animal(energy: Int, weight: Int, maxOld: Int, name: String) {
     var itEnergy = energy
     var itWeight = weight
     var itName = name
+    val childAnimals = mutableListOf(name, maxOld.toString(), weight.toString(), energy.toString())
 
-    fun isTooOld(old: Int): Boolean {
-        return (old >= itMaxOld)
+    internal fun tryIncrementAge(): Boolean {
+        return (Random.nextBoolean())
     }
 
-    fun dream() {
-        itEnergy - 5
+    fun isTooOld(old: Int): Boolean {                   //Проверка на превышение макс. возраста
+        return (old <= itMaxOld)                        //Используется в fun dream, eat, move
+    }
+
+    fun dream():Boolean {
+        itEnergy += 5
         old++
-        println("$itName - спит")
+        if (isTooOld(old)) {
+            println("$itName - sleeping")
+            when (Random.nextInt(1..10)){              //Шанс рождения 10%
+                5 -> println(offSpring())
+            }
+return true
+
+        }
+        return false
     }
 
-    fun eat() {
+    fun eat():Boolean {
         itWeight++
-        itEnergy + 3
-        if (Random.nextBoolean()) old++
-        if (itEnergy > 2 || old <= itMaxOld)
-            println("$itName - ест")
+        itEnergy += 3
+        if (tryIncrementAge()) old++
+        if (isTooOld(old)){
+            println("$itName - eating")
+        return true}
+        return false
     }
 
-    fun move() {
-        itEnergy - 5
-        itWeight - 1
-        if (Random.nextBoolean()) old++
-        println("$itName - передвигается")
+    open fun move():Boolean {
+        itEnergy -= 5
+        itWeight -= 1
+        if (tryIncrementAge()) old++
+        return if (itEnergy > 4 && itWeight > 0 && isTooOld(old)) {
+            println("$itName - moving")
+            when (Random.nextInt(1..10)){              //Шанс рождения 10%
+                5 -> println(offSpring())
+            }
+            true
+        }else
+            false
+    }
+
+
+    fun offSpring(): MutableList<String> {                           //Рождение потомства, есть шанс во время сна и передвижения
+        println("BIRTH OF OFF spring")
+        return mutableListOf(
+            itName + "child",
+            itMaxOld.toString(),
+            Random.nextInt(1..5).toString(),
+            Random.nextInt(1..10).toString()
+        )
     }
 
 }
