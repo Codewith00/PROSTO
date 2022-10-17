@@ -2,12 +2,12 @@ import kotlin.random.Random
 import kotlin.random.nextInt
 
 fun main() {
-    val area = NatureReserve().animals
-    val test = area
+    var area = NatureReserve().animals
+    var test = area
+    println("Survivors animals in NatureReserve ${test.size}")
     area.forEach {
         it.printInfo()
     }
-    println(area.size)
     for (j in 1..10) {
         area.toMutableList().forEach {
             if (it.lifeIsTrue()) {
@@ -23,12 +23,12 @@ fun main() {
                     }
                 }
             } else {
-                it.printInfo()
                 println("${it.name} R.I.P")
                 test.remove(it)
             }
 
         }
+        area = test
         test.toMutableList().forEach {
             if (it.lifeIsTrue()) {
                 when (Random.nextInt(1..4)) {
@@ -43,12 +43,12 @@ fun main() {
                     }
                 }
             } else {
-                it.printInfo()
                 println("${it.name} R.I.P")
                 area.remove(it)
             }
 
         }
+        test = area
     }
     println("Survivors animals in NatureReserve ${test.size}")
     test.forEach {
