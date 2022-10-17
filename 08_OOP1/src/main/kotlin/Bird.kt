@@ -1,19 +1,23 @@
 import kotlin.random.Random
 import kotlin.random.nextInt
 
-open class Bird(name: String, maxOld: Int, weight: Int, energy: Int) : NatureReserve(name, maxOld, weight, energy) {
-
-    override fun move():Boolean {
-        itEnergy -= 5
-        itWeight -= 1
-        if (tryIncrementAge()) old++
-        return if (itEnergy > 4 && itWeight > 0 && isTooOld(old)) {
-            println("$itName - FLY")
-            when (Random.nextInt(1..5)){              //Шанс рождения 20%
-                3 -> println(offSpring())
-            }
+class Bird(energy: Int, weight: Int, maxAge: Int, name: String) : Animal(energy, weight, maxAge, name) {
+    private var itMaxAge: Int = maxAge
+    override fun move(): Boolean {
+        return if (!isTooOld() && energy >= 0 && weight > 0) {
+            energy -= 5
+            weight --
+            println("$name - FLY")
+            if (tryIncrementAge()) age++
             true
-        }else
-            false
+        }  else false
+    }
+   override fun animalGeneration(): Animal {
+        return Bird(
+            energy = Random.nextInt(1..10),
+            weight = Random.nextInt(1..5),
+            maxAge = itMaxAge,
+            name = "$name child"
+        )
     }
 }
