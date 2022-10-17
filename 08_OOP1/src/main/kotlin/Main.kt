@@ -2,11 +2,14 @@ import kotlin.random.Random
 import kotlin.random.nextInt
 
 fun main() {
-    val area = NatureReserve()
-    val trueArea = area.animals.toMutableList()
-    println(trueArea.size)
-    area.animals.forEach {
-        for (j in 1..10) {                          //количство действий для каждой особи (10)
+    val area = NatureReserve().animals
+    val test = area
+    area.forEach {
+        it.printInfo()
+    }
+    println(area.size)
+    for (j in 1..10) {
+        area.toMutableList().forEach {
             if (it.lifeIsTrue()) {
                 when (Random.nextInt(1..4)) {
                     1 -> it.eat()
@@ -14,25 +17,19 @@ fun main() {
                     3 -> it.sleep()
                     4 -> when (Random.nextInt(1..6)) {
                         3 -> {
-                            trueArea.add(it.animalGeneration())
+                            test.add(it.animalGeneration())
                             println("WONDERFULL! ${it.name} procreated")
                         }
                     }
                 }
             } else {
-
-                println(it.printInfo())
+                it.printInfo()
                 println("${it.name} R.I.P")
-                trueArea -= it
-
-                break
+                test.remove(it)
             }
+
         }
-    }
-    val trueAreaChild = trueArea.toMutableList()
-    trueArea.shuffle()
-    trueArea.forEach {
-        for (j in 1..10) {                          //количство действий для каждой особи (10)
+        test.toMutableList().forEach {
             if (it.lifeIsTrue()) {
                 when (Random.nextInt(1..4)) {
                     1 -> it.eat()
@@ -40,22 +37,22 @@ fun main() {
                     3 -> it.sleep()
                     4 -> when (Random.nextInt(1..6)) {
                         3 -> {
-                            trueAreaChild.add(it.animalGeneration())
+                            area.add(it.animalGeneration())
                             println("WONDERFULL! ${it.name} procreated")
                         }
                     }
                 }
             } else {
-                trueAreaChild.remove(it)
+                it.printInfo()
                 println("${it.name} R.I.P")
-                break
+                area.remove(it)
             }
-        }
 
+        }
     }
-    println("Survivors animals in NatureReserve ${trueAreaChild.size}")
-    trueAreaChild.forEach {
-        println("${it.printInfo()}")
+    println("Survivors animals in NatureReserve ${test.size}")
+    test.forEach {
+        it.printInfo()
     }
 
 }
