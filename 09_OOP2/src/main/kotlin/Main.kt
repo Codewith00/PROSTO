@@ -1,7 +1,26 @@
-fun main(args: Array<String>) {
-    println("Hello World!")
-
-    // Try adding program arguments via Run/Debug configuration.
-    // Learn more about running applications: https://www.jetbrains.com/help/idea/running-applications.html.
-    println("Program arguments: ${args.joinToString()}")
+fun main() {
+    val sberbank = DebitCard(220054.60, 0.0,"SBER")
+    val sovkombank = CreditCard(0.0, 0.0, 10000.0,"SOVKOM")
+    val alfabank = PromoDebitCard(5651655.12, 12.0,"ALFA")
+    val qivi = PromoCreditCard(40000.5, 15000.0, 50.0,"QIWI")
+    sberbank.cashBackPay(25000.0)
+    sberbank.upBalance(200.0)
+    sberbank.informCount()
+    println(sberbank.takeBalance().toString())
+    sovkombank.upBalance(33333.0)
+    sovkombank.cashBackPay(5000.0)
+    sovkombank.informCount()
+    alfabank.upBalance(10000.0)
+    alfabank.cashBackPay(10000.0)
+    alfabank.informCount()
+    qivi.upBalance(4000.5)
+    qivi.informCount()
+    qivi.upBalance(4000.5)
+    qivi.informCount()
+    qivi.upBalance(40040.5)
+    qivi.informCount()
+    qivi.upBalance(40000.5)
+    qivi.informCount()
+    qivi.cashBackPay(94000.0)
+    qivi.informCount()
 }
