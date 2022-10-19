@@ -1,26 +1,43 @@
+import kotlin.random.Random
+import kotlin.random.Random.Default.nextDouble
+
 fun main() {
-    val sberbank = DebitCard(220054.60, 0.0,"SBER")
-    val sovkombank = CreditCard(0.0, 0.0, 10000.0,"SOVKOM")
-    val alfabank = PromoDebitCard(5651655.12, 12.0,"ALFA")
-    val qivi = PromoCreditCard(40000.5, 15000.0, 50.0,"QIWI")
-    sberbank.cashBackPay(25000.0)
-    sberbank.upBalance(200.0)
-    sberbank.informCount()
-    println(sberbank.takeBalance().toString())
-    sovkombank.upBalance(33333.0)
-    sovkombank.cashBackPay(5000.0)
-    sovkombank.informCount()
-    alfabank.upBalance(10000.0)
-    alfabank.cashBackPay(10000.0)
-    alfabank.informCount()
-    qivi.upBalance(4000.5)
-    qivi.informCount()
-    qivi.upBalance(4000.5)
-    qivi.informCount()
-    qivi.upBalance(40040.5)
-    qivi.informCount()
-    qivi.upBalance(40000.5)
-    qivi.informCount()
-    qivi.cashBackPay(94000.0)
-    qivi.informCount()
+    val sberbank = DebitCard(balance = 50054.60, bonus = 0.0, name = "SBER")
+    val sovkombank = CreditCard(balance = 0.0, bonus = 0.0, creditBalance = 159.0, name = "SOVKOM")
+    val alfabank = PromoDebitCard(0.0, 12.0, "ALFA")
+    val qivi = PromoCreditCard(1000.0, 0.0, 50.0, "QIWI")
+
+    while (sberbank.takeBalance() > 1000) {
+        println(sberbank.informCount())
+        if (!sberbank.pay(10000.0)) break
+    }
+    while (sovkombank.takeBalance() < 2000) {
+        sovkombank.upBalance(2999.9)
+        println(sovkombank.informCount())
+    }
+println(alfabank.informCount())
+    for (j in 1..10)
+        when (Random.nextBoolean()) {
+            true -> {
+                if (!alfabank.pay(nextDouble(300.0, 5000.0))) println("No money!")
+                println(alfabank.informCount())
+            }
+            false -> {
+                alfabank.upBalance(nextDouble(100.0, 2000.0))
+                println(alfabank.informCount())
+            }
+        }
+
+    for (j in 1..10)
+        when (Random.nextBoolean()) {
+            true -> {
+                qivi.pay(nextDouble(300.0, 5000.0))
+                println(qivi.informCount())
+            }
+            false -> {
+                qivi.upBalance(nextDouble(100.0, 2000.0))
+                println(qivi.informCount())
+            }
+        }
+
 }

@@ -6,20 +6,19 @@ open class CreditCard(
 
 
     override fun upBalance(current: Double) {
-        if (creditBalance == 10000.0)
+        if (creditBalance == 10000.0) {
             balance += current
-        else
+        } else
             if (current + creditBalance > 10000.0) {
                 balance += (current + creditBalance) - 10000.0
                 creditBalance = 10000.0
-            } else creditBalance += current
-
+            } else
+                creditBalance += current
     }
 
     override fun pay(current: Double): Boolean {
-        return if (balance <= current) {
-            if (balance + creditBalance <= current) {
-                println("Not enough money")
+        return if (balance < current) {
+            if (balance + creditBalance < current) {
                 false
             } else {
                 creditBalance -= (current - balance)
@@ -38,29 +37,12 @@ open class CreditCard(
         return balance
     }
 
-    override fun informCount() {
-        println("$name - Credit card balance: Debit balance - $balance, Credit balance - $creditBalance, bonus balance - $bonus")
+    override fun informCount(): String {
+        return "$name - Credit card balance: Debit balance - ${String.format("%.2f", balance)}, Credit balance - ${String.format("%.2f", creditBalance)}, Bonus balance - ${String.format("%.2f", bonus)}"
     }
 
-    override fun cashBackPay(current: Double): Boolean {
-        return if (balance <= current) {
-            if (balance + creditBalance <= current) {
-                println("Not enough money")
-                false
-            } else {
-                creditBalance -= (current - balance)
-                balance = 0.0
-                bonus += (current * 0.01)
-                true
-            }
-        } else {
-            balance -= current
-            bonus += (current * 0.01)
-            true
-        }
 
 
-    }
 }
 
 
