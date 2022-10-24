@@ -3,31 +3,33 @@ import kotlin.random.Random
 open class AbstractWeapon(
     val maxBullets: Int,
     val fireType: FireType,
-    val ammoMagazine: GenericStack<Ammo>,
-    var currentAmountBullets: Int
+   open val ammoMagazine: GenericStack<Ammo>,
+    var currentAmountBullets: Int,
+    val typeBullets: Ammo
 ) {
 
-    fun createBullet(): Ammo {
-        return when (Random.nextInt(1, 4)) {
-            1 -> Ammo.IRON_BULLET
-            2 -> Ammo.FIRE_BULLET
-            3 -> Ammo.COLD_BULLET
-            4 -> Ammo.URAN_BULLET
-            else -> Ammo.IRON_BULLET
-        }
+    private fun createBullet(): Ammo {
+        return typeBullets
+
     }
 
     fun reload() {
-for (j in 1..maxBullets) {
-    ammoMagazine.push(createBullet())
-    currentAmountBullets ++
-}
-    }
-
-    fun takeBulletsForFire() {
-        when (fireType){
-            is SingleShot -> ammoMagazine.pop()
-            is TripleShot -> for (j in 1..3)ammoMagazine.pop()
+        for (j in 1..maxBullets) {
+            ammoMagazine.push(createBullet())
+            currentAmountBullets++
         }
     }
+
+    fun takeBulletsForFire(): Ammo? {
+        when (fireType) {
+            is SingleShot -> {
+                currentAmountBullets--
+                return ammoMagazine.pop()
+            }
+            is TripleShot -> for (j in 1..3) {
+                currentAmountBullets--
+                return ammoMagazine.pop()
+            }
+        }
+    return null}
 }

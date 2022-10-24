@@ -1,5 +1,4 @@
 import kotlin.random.Random
-import kotlin.random.nextInt
 
 enum class Ammo(var damage: Int, val crit: Int) {
 
