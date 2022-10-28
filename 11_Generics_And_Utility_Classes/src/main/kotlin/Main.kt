@@ -1,4 +1,3 @@
-import kotlin.random.Random
 
 fun main() {
     val armi1 = Team()
@@ -20,13 +19,22 @@ fun main() {
         i++
     }
     val goBattle = Battle(armi1, armi2)
-    for(j in 1..100) {
-        if (!goBattle.battleStatus) {
-            println(goBattle.whoWin())
-            break}
+    while (goBattle.progress() == BattleState.War) {
         goBattle.fight()
-
-        println("TEAM 1 ${BattleState.TeamInfo.getGeneralHP(armi1)} HP, survivor - ${BattleState.TeamInfo.getCurrentAmountWarriors(armi1)} ")
-        println("TEAM 2 ${BattleState.TeamInfo.getGeneralHP(armi2)} HP, survivor - ${BattleState.TeamInfo.getCurrentAmountWarriors(armi2)} ")
+        println(
+            "TEAM 1 ${BattleState.TeamInfo.getGeneralHP(armi1)} HP, survivor - ${
+                BattleState.TeamInfo.getCurrentAmountWarriors(
+                    armi1
+                )
+            } "
+        )
+        println(
+            "TEAM 2 ${BattleState.TeamInfo.getGeneralHP(armi2)} HP, survivor - ${
+                BattleState.TeamInfo.getCurrentAmountWarriors(
+                    armi2
+                )
+            } "
+        )
     }
+    println(goBattle.whoWinHP())
 }

@@ -1,4 +1,3 @@
-import BattleState.TeamInfo.getCurrentAmountWarriors
 import BattleState.TeamInfo.getGeneralHP
 
 open class Battle(var team1: Team, var team2: Team, open var battleStatus: Boolean = true) {
@@ -18,7 +17,6 @@ open class Battle(var team1: Team, var team2: Team, open var battleStatus: Boole
                     if (itTeam2.listTeam[i].currentHealth <= 0) {
                         println("${itTeam2.listTeam[i]} R.I.P")
                         itTeam2.listTeam.removeAt(i)
-                        if (i == 0) battleStatus = false
                         i--
                     }
                     i++
@@ -40,7 +38,6 @@ open class Battle(var team1: Team, var team2: Team, open var battleStatus: Boole
                     if (itTeam1.listTeam[i].currentHealth <= 0) {
                         println("${itTeam1.listTeam[i]} R.I.P")
                         itTeam1.listTeam.removeAt(i)
-                        if (i == 0) battleStatus = false
                         i--
                     }
                     i++
@@ -50,10 +47,16 @@ open class Battle(var team1: Team, var team2: Team, open var battleStatus: Boole
         } else battleStatus = false
     }
 
-    fun whoWin(): BattleState {
-        if (getGeneralHP(team1) == getGeneralHP(team2)) return BattleState.Lose
+    fun whoWinHP(): BattleState {
+        if (getGeneralHP(team1) == getGeneralHP(team2) || (getGeneralHP(team1) <= 0 && getGeneralHP(team2) <= 0)) return BattleState.Lose
         return if (getGeneralHP(team1) > getGeneralHP(team2)) BattleState.Win1
-        else BattleState.Win2
+        else BattleState.Win2 //Проверяет большее кол-во HP у команды - победитель с наибольшим HP
+    }
+    fun progress (): BattleState {
+        while (battleStatus) {
+return BattleState.War
+        }
+        return whoWinHP()
     }
 }
 

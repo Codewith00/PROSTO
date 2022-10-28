@@ -1,5 +1,4 @@
 sealed class BattleState(val stateBattle: String) {
-
     object Win1 : BattleState("Command 1 WIN") {
         override fun toString(): String {
             return stateBattle
@@ -14,6 +13,13 @@ sealed class BattleState(val stateBattle: String) {
 
     object Lose : BattleState("Not winner") {
         override fun toString(): String {
+            return stateBattle
+        }
+    }
+
+    object War : BattleState("Now there is a war") {
+        override fun toString(): String {
+
             return stateBattle
         }
     }

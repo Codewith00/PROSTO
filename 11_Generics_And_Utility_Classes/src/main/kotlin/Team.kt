@@ -7,14 +7,14 @@ fun fillTeam (amount: Int){
     listTeam.add(j, randomWarrior())}
 }
     private fun randomWarrior (): AbstractWarrior{
-       val a = when (Random.nextInt(1, 12)){
+        return when (Random.nextInt(1, 12)){
            1 -> Soldier()
            2 -> Soldier()
            3 -> Soldier()
            4 -> Soldier()
            5 -> Soldier()
-           6 -> Soldier()
-           7 -> Soldier()
+           6 -> Leitenant()
+           7 -> Leitenant()
            8 -> Captain()
            9 -> Captain()
            10 -> Captain()
@@ -22,7 +22,6 @@ fun fillTeam (amount: Int){
 
            else -> {General()}
        }
-        return a
     }
 
     override fun toString(): String {

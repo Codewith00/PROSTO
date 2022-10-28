@@ -1,17 +1,12 @@
-import kotlin.random.Random
 
-open class AbstractWeapon(
-    val maxBullets: Int,
-    val fireType: FireType,
+abstract class AbstractWeapon(
+    private val maxBullets: Int,
+    private val fireType: FireType,
     open val ammoMagazine: GenericStack<Ammo>,
     var currentAmountBullets: Int,
-    val typeBullets: Ammo
 ) {
 
-    private fun createBullet(): Ammo {
-        return typeBullets
-
-    }
+    abstract fun createBullet(): Ammo
 
     fun reload() {
         for (j in 1..maxBullets) {
@@ -22,18 +17,18 @@ open class AbstractWeapon(
 
     fun takeBulletsForFire(): GenericStack<Ammo> {
         val stack = GenericStack<Ammo>()
-        when (fireType) {
+        return when (fireType) {
             is SingleShot -> {
                 currentAmountBullets--
                 ammoMagazine.pop()?.let { stack.push(it) }
-                return stack
+                stack
             }
             is TripleShot -> {
                 for (j in 1..3) {
                     currentAmountBullets--
                     ammoMagazine.pop()?.let { stack.push(it) }
                 }
-                return stack
+                stack
             }
 
         }
